@@ -1,4 +1,4 @@
-import { Shield, Sparkles, Terminal, Activity, FileCode } from 'lucide-react';
+import { Shield, Sparkles, Terminal, Activity, FileCode, Server } from 'lucide-react';
 
 interface NavbarProps {
   activeTab: string;
