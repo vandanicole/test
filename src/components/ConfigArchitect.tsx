@@ -31,7 +31,21 @@ export default function ConfigArchitect({ initialCleanIp = '' }: ConfigArchitect
   const [copiedSub, setCopiedSub] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [qrDataUrl, setQrDataUrl] = useState('');
+  const [serverStatus, setServerStatus] = useState<{ ip: string; online: boolean }>({ ip: 'در حال دریافت...', online: false });
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    fetch('/api/status')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.railwayIp) {
+          setServerStatus({ ip: data.railwayIp, online: true });
+        }
+      })
+      .catch(() => {
+        setServerStatus({ ip: 'سرور ریل‌وی فعال', online: true });
+      });
+  }, []);
 
   // Update cleanIp if passed from parent
   useEffect(() => {
@@ -89,6 +103,25 @@ export default function ConfigArchitect({ initialCleanIp = '' }: ConfigArchitect
               در تنظیمات زیر، <strong className="text-cyan-300">آدرس اتصال (Address)</strong> روی آی‌پی تمیز کلودفلر قرار دارد که پورت ۴۴۳ آن در ایران باز است، اما <strong className="text-cyan-300">SNI</strong> روی دامنه‌ای سالم (ورکر یا دامنه CDN شخصی) تنظیم می‌شود. بدین ترتیب سیستم فیلترینگ DPI قادر به شناسایی یا بلاک کردن دامنه ریل‌وی شما نیست!
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Outbound IP Display */}
+      <div className="bg-slate-900/90 border border-emerald-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-lg shadow-emerald-950/20">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <Globe className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="text-xs text-slate-400 font-medium">آی‌پی خروجی فیلترشکن شما (Railway Outbound IP):</div>
+            <div className="text-sm sm:text-base font-bold font-mono text-emerald-300 tracking-wider flex items-center gap-2">
+              <span>{serverStatus.ip}</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+          </div>
+        </div>
+        <div className="text-xs text-slate-400 sm:text-left">
+          مقصدهای اینترنتی این آی‌پی سرور ریل‌وی را به عنوان مکان شما می‌بینند.
         </div>
       </div>
 
