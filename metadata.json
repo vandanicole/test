@@ -1,0 +1,6 @@
+{
+  "name": "PXPanel Hub & SNI Architect",
+  "description": "سامانه مدیریت و کانفیگ‌ساز هوشمند PXPanel مجهز به تنظیمات SNI اختصاصی، آی‌پی‌های تمیز و پکیج کامل عبور از فیلترینگ",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
